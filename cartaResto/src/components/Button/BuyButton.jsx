@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom"
 
-const BuyButton = ({ to = "/carrito", children = "", className = "" }) => {
+const BuyButton = ({ to = "/Carrito", children = "", className = "" }) => {
     const location = useLocation()
-    const isCarrito = location.pathname === "/carrito"
+    const isCarrito = location.pathname === "/Carrito"
     
     if (isCarrito) return null
     
