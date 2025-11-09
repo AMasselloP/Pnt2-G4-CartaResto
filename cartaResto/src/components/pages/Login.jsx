@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "../Styles/Login.css";
 
 
 const Login = () => {
