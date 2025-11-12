@@ -1,5 +1,13 @@
+import useCartStore from '../../store/cartStore'
+
 export default function ProductCard({ producto }) {
-  console.log({ producto });
+  const addItem = useCartStore((s) => s.addItem)
+
+  const handleAdd = () => {
+    // Add minimal product shape to cart
+    addItem({ id: producto.id, nombre: producto.nombre, precio: Number(producto.precio) || 0, image: producto.image })
+  }
+
   return (
     <div className="bg-white border border-red-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group">
       <img
@@ -13,7 +21,12 @@ export default function ProductCard({ producto }) {
         </h3>
         <p className="text-sm text-gray-600">{producto.Descripcion}</p>
         <p className="font-bold text-red-800 mt-2">$ {producto.precio}</p>
+        <div className="mt-3">
+          <button onClick={handleAdd} className="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+            Agregar
+          </button>
+        </div>
       </div>
     </div>
-  );
+  )
 }

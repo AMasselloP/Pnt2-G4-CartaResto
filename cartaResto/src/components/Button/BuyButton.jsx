@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom"
+import useCartStore from '../../store/cartStore'
 
 const BuyButton = ({ to = "/Carrito", children = "", className = "" }) => {
     const location = useLocation()
     const isCarrito = location.pathname === "/Carrito"
-    
+    const totalCount = useCartStore((s) => s.items.reduce((acc, i) => acc + (i.quantity || 1), 0))
+
     if (isCarrito) return null
-    
+
     return (
         <Link 
             to={to} 
@@ -23,6 +25,11 @@ const BuyButton = ({ to = "/Carrito", children = "", className = "" }) => {
                 <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM280-320q-50 0-85-35t-35-85v-360q0-17 11.5-28.5T160-840h600q17 0 28.5 11.5T800-800v360q0 50-35 85t-85 35H280Z"/>
             </svg>
             {children}
+            {totalCount > 0 && (
+                <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                    {totalCount}
+                </span>
+            )}
         </Link>
     )
 }
