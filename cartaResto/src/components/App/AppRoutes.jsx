@@ -2,15 +2,18 @@ import {Routes, Route } from 'react-router';
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Carrito from "../pages/Carrito";
+import CheckoutPage from '../Carrito/CheckoutPage';
 import MenuResto from '../MenuResto/MenuResto';
+import FinCompra from '../FinCompra/GraciasCompra';
+
 
 
 const appRoutes = () => (
     <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<MenuResto />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="/Carrito" element={<Carrito />} />
-        <Route path="/MenuResto" element={<MenuResto />} />
+        <Route path="/Carrito" element={<CheckoutPage />} />
+        {<Route path="/finCompra" element={<FinCompra />} />}
     </Routes>
 )
 

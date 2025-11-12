@@ -1,0 +1,141 @@
+/* src/styles/checkout.css */
+
+.page-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2.5rem 1.5rem;
+}
+
+.checkout-layout {
+    max-width: 80rem; /* approx Tailwind max-w-5xl */
+    width: 100%;
+    border: 2px solid #f87171; /* border-red-500 approximated */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* --- Shared Section Styles --- */
+.section-container {
+    border: 2px solid #f87171;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.section-title {
+    color: #dc2626; /* red-600 */
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Item List --- */
+.item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.item-pic {
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid #fca5a5; /* red-400 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #dc2626;
+}
+
+.item-title {
+    font-weight: 600;
+    color: #1f2937; /* gray-800 */
+}
+
+.item-sub {
+    font-size: 0.875rem;
+    color: #4b5563; /* gray-600 */
+}
+
+.item-price {
+    color: #ca8a04; /* yellow-500 */
+    font-weight: 700;
+}
+
+/* --- Inputs --- */
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151; /* gray-700 */
+    margin-bottom: 0.25rem;
+}
+
+.input-red {
+    width: 100%;
+    border: 1px solid #fca5a5;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.75rem;
+}
+
+/* --- Buttons --- */
+.btn-green {
+    background-color: #10b981;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.25rem 1rem;
+    border-radius: 0.375rem;
+}
+
+.btn-green:hover {
+    background-color: #059669;
+}
+
+.btn-yellow {
+    width: 100%;
+    border: 2px solid #facc15;
+    color: #a16207;
+    font-weight: 700;
+    padding: 0.5rem 0;
+    border-radius: 0.375rem;
+}
+
+.btn-yellow:hover {
+    background-color: #fffbeb;
+}
+
+/* --- Order Summary --- */
+.order-box {
+    width: 100%;
+    border: 2px solid #f87171;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.price-yellow {
+    font-weight: 700;
+    color: #d97706; /* yellow-600 */
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #fca5a5;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+}
