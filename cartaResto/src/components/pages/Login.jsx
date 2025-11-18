@@ -11,17 +11,32 @@ const Login = () => {
     const [user, setUser] = useState(null);
     const [isSigningUp, setIsSigningUp] = useState(false);
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');   
+    const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
-    const {LogIn, signUp} = useAuth();
+    const { LogIn, signUp } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if(isSigningUp){ signUp(email, password);}
-        else{
-            LogIn (email, password)
+
+        if (isSigningUp) {
+            const res = await signUp(email, password);
+            console.log('signUp res:', res);
+            if (res?.error) {
+                alert('Error al registrarse: ' + (res.error.message || JSON.stringify(res.error)));
+                return;
+            }
+            navigate('/');
+            return;
         }
+
+        const res = await LogIn(email, password);
+        console.log('LogIn res:', res);
+        if (res?.error) {
+            alert('Error al iniciar sesión: ' + (res.error.message || JSON.stringify(res.error)));
+            return;
+        }
+
         navigate('/');
     }
 
@@ -38,20 +53,20 @@ const Login = () => {
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="login-form-group">
                         <label className="login-label">Usuario email:</label>
-                        <input 
+                        <input
                             className="login-input"
-                            type="email" 
-                            placeholder="usuario@gmail.com" 
+                            type="email"
+                            placeholder="usuario@gmail.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required />
                     </div>
                     <div className="login-form-group">
                         <label className="login-label">password:</label>
-                        <input 
+                        <input
                             className="login-input"
-                            type="password" 
-                            placeholder="**************" 
+                            type="password"
+                            placeholder="**************"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required />

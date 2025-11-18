@@ -7,26 +7,32 @@ export function useAuth() {
     const clearUser = useSessionStore((state) => state.clearUser);
 
     const LogIn = async(email, password) => {
-        let {data, error} = await supabase.auth.signInWithPassword({email,password});
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-        if(error){
+        if (error) {
             console.log("error al iniciar sesion", error);
-            return;
+            return { error };
         }
-        setUser(data.user);
-        
-    }
+
+        console.log('useAuth.LogIn response data:', data);
+        const user = data?.user ?? data?.session?.user ?? null;
+        setUser(user);
+        return { user };
+    };
 
     const signUp = async (email, password) => {
-        
-        let {data, error} = await supabase.auth.signUp({email,password});
+        const { data, error } = await supabase.auth.signUp({ email, password });
 
-        if(error){
+        if (error) {
             console.log("error al registrarse", error);
-            return;
+            return { error };
         }
-        setUser(data.user);
-    }
+
+        console.log('useAuth.signUp response data:', data);
+        const user = data?.user ?? data?.session?.user ?? null;
+        setUser(user);
+        return { user };
+    };
 
     const logout = async () => {
         const { error } = await supabase.auth.signOut();

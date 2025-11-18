@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { BuyButton } from "../Button";
+import { useEffect } from "react";
+import { supabase } from "../lib/supabase";
+import useSessionStore from "../../store/sessionStore";
 import restaurant from '../../data/restaurant.json'
 
 const CATEGORIES = ["Entradas", "Plato principal", "Bebidas", "Postres"];
@@ -7,10 +9,67 @@ const CATEGORIES = ["Entradas", "Plato principal", "Bebidas", "Postres"];
 export default function Sidebar({ onCategoryChange, selectedCategory }) {
 
   const navigate = useNavigate()
+  const user = useSessionStore((s) => s.user);
+  const clearUser = useSessionStore((s) => s.clearUser);
   
   const handleCategoryClick = (category) => {
     if (onCategoryChange) {
       onCategoryChange(category);
+    }
+  };
+
+  useEffect(() => {
+    let sub;
+
+    const init = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        console.log('Sidebar: initial supabase.auth.getSession ->', data);
+      } catch (e) {
+      }
+
+      const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+        console.log('Sidebar: onAuthStateChange', { event, session });
+      });
+
+      sub = listener?.subscription;
+    };
+
+    init();
+
+    return () => {
+      try {
+        sub?.unsubscribe?.();
+      } catch (e) {}
+    };
+  }, []);
+  // Sidebar reads the current user from the centralized session store.
+  // A global auth listener (if present elsewhere) should keep the store updated.
+  // We keep the effect to log auth events for debugging, but we DO NOT manage local user state here.
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Sidebar: onAuthStateChange', { event, session });
+    });
+
+    return () => {
+      try {
+        listener?.subscription?.unsubscribe();
+      } catch (e) {}
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Error signing out', error);
+        return;
+      }
+      // clear centralized store so UI updates across the app
+      clearUser();
+      navigate('/login');
+    } catch (err) {
+      console.error('Logout exception', err);
     }
   };
 
@@ -44,9 +103,18 @@ export default function Sidebar({ onCategoryChange, selectedCategory }) {
       </div>
 
       <div className="mt-6 text-center">
-        <button onClick={() => navigate("/login")} className="border border-red-400 text-red-600 font-semibold rounded-md px-5 py-2 hover:bg-red-100 transition">
-          LOGIN
-        </button>
+        {user && (
+          <div className="text-sm text-gray-700 mb-2">{user.email}</div>
+        )}
+        {user ? (
+          <button onClick={handleLogout} className="border border-red-400 text-red-600 font-semibold rounded-md px-5 py-2 hover:bg-red-100 transition">
+            Cerrar sesión
+          </button>
+        ) : (
+          <button onClick={() => navigate("/login")} className="border border-red-400 text-red-600 font-semibold rounded-md px-5 py-2 hover:bg-red-100 transition">
+            LOGIN
+          </button>
+        )}
          <div className="mt-6 text-center">
         <button onClick={() => navigate("/Carrito")} className="border border-red-400 text-red-600 font-semibold rounded-md px-5 py-2 hover:bg-red-100 transition">
           Carrito
