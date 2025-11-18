@@ -56,5 +56,6 @@ Estructura del proyecto
   - `src/components/lib/supabase.js` — cliente Supabase.
 
 
+ULR DEL PROYECTO 
 
-
+https://resto-app2025.netlify.app/

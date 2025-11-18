@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+
 const fs = require('fs')
 const path = require('path')
 
@@ -34,13 +34,13 @@ function processFile(file){
   const src = fs.readFileSync(file, 'utf8')
   let out = src
 
-  // Remove block comments /* */
+  
   out = out.replace(/\/\*[\s\S]*?\*\//g, '')
 
-  // Remove HTML comments <!-- -->
+  
   out = out.replace(/<!--([\s\S]*?)-->/g, '')
 
-  // Remove // comments but avoid protocol patterns like http:// or https:// (negative lookbehind for :)
+ 
   out = out.replace(/(?<!:)\/\/.*$/gm, '')
 
   if(out !== src){
